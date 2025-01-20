@@ -1,0 +1,64 @@
+
+<!-- saved from url=(0074)file:///C:/Users/Kartik%20Kumar/Downloads/Supply%20Chain%20Project.py.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>PO BATCH ASSIGNMENT.py</title>
+
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #6aab73;}
+.s4 { color: #2aacb8;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table cellspacing="0" cellpadding="5" cols="1" width="100%" bgcolor="#606060">
+<tbody><tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+PO BATCH ASSIGNMENT.py</font>
+</center></td></tr></tbody></table>
+<pre><span class="s0">import </span><span class="s1">pandas </span><span class="s0">as </span><span class="s1">pd</span>
+<span class="s0">import </span><span class="s1">numpy </span><span class="s0">as </span><span class="s1">np</span>
+<span class="s0">import </span><span class="s1">matplotlib</span><span class="s2">.</span><span class="s1">pyplot </span><span class="s0">as </span><span class="s1">plt</span>
+<span class="s0">import </span><span class="s1">seaborn </span><span class="s0">as </span><span class="s1">sns</span>
+<span class="s1">data </span><span class="s2">= </span><span class="s1">pd</span><span class="s2">.</span><span class="s1">read_csv</span><span class="s2">(</span><span class="s3">r"C:\Users\Kartik Kumar\Downloads\PO batches assignment.csv"</span><span class="s2">, </span><span class="s1">delimiter</span><span class="s2">=</span><span class="s3">','</span><span class="s2">, </span><span class="s1">quotechar</span><span class="s2">=</span><span class="s3">'"'</span><span class="s2">, </span><span class="s1">on_bad_lines</span><span class="s2">=</span><span class="s3">'skip'</span><span class="s2">)</span>
+<span class="s1">print</span><span class="s2">(</span><span class="s1">data</span><span class="s2">.</span><span class="s1">head</span><span class="s2">())</span>
+<span class="s1">print</span><span class="s2">(</span><span class="s1">data</span><span class="s2">.</span><span class="s1">info</span><span class="s2">())</span>
+<span class="s1">print</span><span class="s2">(</span><span class="s1">data</span><span class="s2">.</span><span class="s1">describe</span><span class="s2">())</span>
+
+<span class="s1">unique_batches </span><span class="s2">= </span><span class="s1">data</span><span class="s2">[</span><span class="s3">'Batch Number'</span><span class="s2">].</span><span class="s1">nunique</span><span class="s2">()</span>
+<span class="s1">print</span><span class="s2">(</span><span class="s3">f"Total number of unique batches:</span><span class="s0">{</span><span class="s1">unique_batches</span><span class="s0">}</span><span class="s3">"</span><span class="s2">)</span>
+
+
+<span class="s1">filtered_data </span><span class="s2">= </span><span class="s1">data</span><span class="s2">[</span><span class="s1">data</span><span class="s2">[</span><span class="s3">'Purchase order'</span><span class="s2">] == </span><span class="s3">'Purchase Order #1075875'</span><span class="s2">]</span>
+<span class="s1">unique_batches </span><span class="s2">= </span><span class="s1">filtered_data</span><span class="s2">[</span><span class="s3">'Batch Number'</span><span class="s2">].</span><span class="s1">nunique</span><span class="s2">()</span>
+<span class="s1">print</span><span class="s2">(</span><span class="s3">f"Total number of unique batches for Purchase Order #1075875: </span><span class="s0">{</span><span class="s1">unique_batches</span><span class="s0">}</span><span class="s3">"</span><span class="s2">)</span>
+
+
+<span class="s1">po_batch_counts </span><span class="s2">= </span><span class="s1">data</span><span class="s2">.</span><span class="s1">groupby</span><span class="s2">(</span><span class="s3">'Purchase order'</span><span class="s2">)[</span><span class="s3">'Batch Number'</span><span class="s2">].</span><span class="s1">nunique</span><span class="s2">()</span>
+<span class="s1">pos_with_more_than_4_batches </span><span class="s2">= </span><span class="s1">po_batch_counts</span><span class="s2">[</span><span class="s1">po_batch_counts </span><span class="s2">&gt; </span><span class="s4">4</span><span class="s2">]</span>
+<span class="s1">total_unique_pos </span><span class="s2">= </span><span class="s1">pos_with_more_than_4_batches</span><span class="s2">.</span><span class="s1">count</span><span class="s2">()</span>
+<span class="s1">print</span><span class="s2">(</span><span class="s3">f"Total number of unique POs with more than 4 unique batches: </span><span class="s0">{</span><span class="s1">total_unique_pos</span><span class="s0">}</span><span class="s3">"</span><span class="s2">)</span>
+
+
+<span class="s1">filtered_data </span><span class="s2">= </span><span class="s1">data</span><span class="s2">[</span><span class="s1">data</span><span class="s2">[</span><span class="s3">'Purchase order'</span><span class="s2">] == </span><span class="s3">'Purchase Order #1075875'</span><span class="s2">].</span><span class="s1">copy</span><span class="s2">()</span>
+<span class="s1">filtered_data</span><span class="s2">[</span><span class="s3">'Production ready date'</span><span class="s2">] = </span><span class="s1">pd</span><span class="s2">.</span><span class="s1">to_datetime</span><span class="s2">(</span><span class="s1">filtered_data</span><span class="s2">[</span><span class="s3">'Production ready date'</span><span class="s2">], </span><span class="s1">dayfirst</span><span class="s2">=</span><span class="s0">True</span><span class="s2">)</span>
+<span class="s1">max_prd </span><span class="s2">= </span><span class="s1">filtered_data</span><span class="s2">[</span><span class="s3">'Production ready date'</span><span class="s2">].</span><span class="s1">max</span><span class="s2">()</span>
+<span class="s1">min_prd </span><span class="s2">= </span><span class="s1">filtered_data</span><span class="s2">[</span><span class="s3">'Production ready date'</span><span class="s2">].</span><span class="s1">min</span><span class="s2">()</span>
+<span class="s1">days_difference </span><span class="s2">= (</span><span class="s1">max_prd </span><span class="s2">- </span><span class="s1">min_prd</span><span class="s2">).</span><span class="s1">days</span>
+<span class="s1">print</span><span class="s2">(</span><span class="s3">f"Difference in days between maximum and minimum PRD for Purchase Order #1075875: </span><span class="s0">{</span><span class="s1">days_difference</span><span class="s0">} </span><span class="s3">days"</span><span class="s2">)</span>
+
+
+
+<span class="s1">data</span><span class="s2">[</span><span class="s3">'Production ready date'</span><span class="s2">] = </span><span class="s1">pd</span><span class="s2">.</span><span class="s1">to_datetime</span><span class="s2">(</span><span class="s1">data</span><span class="s2">[</span><span class="s3">'Production ready date'</span><span class="s2">], </span><span class="s1">dayfirst</span><span class="s2">=</span><span class="s0">True</span><span class="s2">)</span>
+<span class="s1">date_diff_per_po </span><span class="s2">= (</span>
+    <span class="s1">data</span><span class="s2">.</span><span class="s1">groupby</span><span class="s2">(</span><span class="s3">'Purchase order'</span><span class="s2">)[</span><span class="s3">'Production ready date'</span><span class="s2">]</span>
+    <span class="s2">.</span><span class="s1">agg</span><span class="s2">([</span><span class="s3">'max'</span><span class="s2">, </span><span class="s3">'min'</span><span class="s2">])</span>
+    <span class="s2">.</span><span class="s1">apply</span><span class="s2">(</span><span class="s0">lambda </span><span class="s1">x</span><span class="s2">: (</span><span class="s1">x</span><span class="s2">[</span><span class="s3">'max'</span><span class="s2">] - </span><span class="s1">x</span><span class="s2">[</span><span class="s3">'min'</span><span class="s2">]).</span><span class="s1">days</span><span class="s2">, </span><span class="s1">axis</span><span class="s2">=</span><span class="s4">1</span><span class="s2">)</span>
+<span class="s2">)</span>
+
+<span class="s1">pos_with_more_than_7_days </span><span class="s2">= </span><span class="s1">date_diff_per_po</span><span class="s2">[</span><span class="s1">date_diff_per_po </span><span class="s2">&gt; </span><span class="s4">7</span><span class="s2">]</span>
+<span class="s1">total_unique_pos </span><span class="s2">= </span><span class="s1">len</span><span class="s2">(</span><span class="s1">pos_with_more_than_7_days</span><span class="s2">)</span>
+<span class="s1">print</span><span class="s2">(</span><span class="s3">f"Total number of unique Purchase Orders with a PRD difference of more than 7 days: </span><span class="s0">{</span><span class="s1">total_unique_pos</span><span class="s0">}</span><span class="s3">"</span><span class="s2">)</span></pre>
+
+</body></html>
